@@ -1,36 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import User from "./user";
-import SearchStatus from "./searchStatus";
+import Pagination from "./pagination";
+import { paginate } from "../utils/paginate";
 
-const Users = ({ users, ...props }) => {
+const Users = ({ users, ...rest }) => {
+  const count = users.length;
+  const pageSize = 4;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageChange = (pageIndex) => {
+    console.log("page: ", pageIndex);
+    setCurrentPage(pageIndex);
+  };
+
+  const userCrop = paginate(users, currentPage, pageSize);
   return (
     <>
-      <SearchStatus length={users.length} />
       {users.length > 0 && (
         <table className="table">
           <thead>
             <tr>
               <th scope="col">Имя</th>
               <th scope="col">Качества</th>
-              <th scope="col">Профессия</th>
+              <th scope="col">Провфессия</th>
               <th scope="col">Встретился, раз</th>
               <th scope="col">Оценка</th>
               <th scope="col">Избранное</th>
-              <th scope="col"></th>
+              <th />
             </tr>
           </thead>
-          <tbody className="table-group-divider">
-            {users.map((item) => (
-              <User
-                item={item}
-                onDelete={props.onDelete}
-                key={item._id}
-              />
+          <tbody>
+            {userCrop.map((user) => (
+              <User key={user._id} {...rest} {...user} />
             ))}
           </tbody>
         </table>
       )}
-		Pagination
+      <Pagination
+        itemsCount={count}
+        currentPage={currentPage}
+        pageSize={pageSize}
+        onPageChange={handlePageChange}
+      />
     </>
   );
 };
