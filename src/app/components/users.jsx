@@ -30,6 +30,7 @@ const Users = ({ users, ...props }) => {
           </tbody>
         </table>
       )}
+		Pagination
     </>
   );
 };
