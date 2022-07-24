@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import User from "./user";
 import Pagination from "./pagination";
 import { paginate } from "../utils/paginate";
+import PropTypes from "prop-types";
 
 const Users = ({ users, ...rest }) => {
   const count = users.length;
@@ -9,7 +10,6 @@ const Users = ({ users, ...rest }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (pageIndex) => {
-    console.log("page: ", pageIndex);
     setCurrentPage(pageIndex);
   };
 
@@ -45,5 +45,9 @@ const Users = ({ users, ...rest }) => {
     </>
   );
 };
-
+Users.propTypes = {
+  users: PropTypes.array.isRequired,
+  onToggleBookMark: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+};
 export default Users;
