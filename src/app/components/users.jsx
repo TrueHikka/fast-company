@@ -9,8 +9,8 @@ import SearchStatus from "./searchStatus";
 
 const Users = ({ users: allUsers, ...rest }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [professions, setProfessions] = useState();
-  const [selectedProf, setSelectedProf] = useState();
+  const [professions, setProfessions] = useState(); // старайся задавать начальное значение useState([]);
+  const [selectedProf, setSelectedProf] = useState();  // useState(null);
   
   const pageSize = 2;
 
