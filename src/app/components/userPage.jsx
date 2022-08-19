@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import api from "../api";
 import Quality from "./quality";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
-const UserPage = ({ id }) => {
+const UserPage = () => {
+    const params = useParams();
+    const { userId } = params;
+
     const [user, setUser] = useState();
     useEffect(() => {
-        api.users.getById(id).then((data) => setUser(data));
+        api.users.getById(userId).then((data) => setUser(data));
     }, []);
-    console.log(user);
+
     const history = useHistory();
 
     const handleSave = () => {
@@ -43,10 +45,6 @@ const UserPage = ({ id }) => {
             )}
         </>
     );
-};
-
-UserPage.propTypes = {
-    id: PropTypes.string.isRequired
 };
 
 export default UserPage;
