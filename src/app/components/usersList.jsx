@@ -7,6 +7,7 @@ import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
 import _ from "lodash";
+// import SearchUsers from "./searchUsers";
 
 const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -14,6 +15,11 @@ const UsersList = () => {
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 8;
+
+    const [value, setValue] = useState("");
+    const searchString = (event) => {
+        setValue(event.target.value);
+    };
 
     const [users, setUsers] = useState();
 
@@ -46,6 +52,7 @@ const UsersList = () => {
 
     const handleProfessionSelect = (item) => {
         setSelectedProf(item);
+        setValue();
     };
 
     const handlePageChange = (pageIndex) => {
@@ -57,9 +64,19 @@ const UsersList = () => {
     };
 
     if (users) {
-        const filteredUsers = selectedProf
-            ? users.filter((user) => user.profession._id === selectedProf._id)
-            : users;
+        const filteredUsers = users.filter((user) => {
+            if (selectedProf || value) {
+                if (selectedProf) {
+                    return user.profession._id === selectedProf._id;
+                }
+                if (value) {
+                    return user.name
+                        .toLowerCase()
+                        .includes(value.toLowerCase());
+                }
+            }
+            return true;
+        });
 
         const count = filteredUsers.length;
 
@@ -72,6 +89,11 @@ const UsersList = () => {
         const userCrop = paginate(sortedUsers, currentPage, pageSize);
 
         const clearFilter = () => {
+            setValue();
+            setSelectedProf();
+        };
+
+        const clearProfession = () => {
             setSelectedProf();
         };
 
@@ -95,6 +117,22 @@ const UsersList = () => {
 
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
+                    <div className="input-group">
+                        <input
+                            type="search"
+                            className="form-control"
+                            id="datatable-search-input"
+                            placeholder="Search..."
+                            onChange={searchString}
+                            onFocus={clearProfession}
+                        />
+                        <button
+                            className="btn btn-outline-secondary"
+                            type="button"
+                        >
+                            <i className="bi bi-search"></i>
+                        </button>
+                    </div>
                     {count > 0 && (
                         <UserTable
                             users={userCrop}
