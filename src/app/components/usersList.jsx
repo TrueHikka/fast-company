@@ -7,7 +7,6 @@ import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
 import _ from "lodash";
-// import SearchUsers from "./searchUsers";
 
 const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);

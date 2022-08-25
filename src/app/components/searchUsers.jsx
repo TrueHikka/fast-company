@@ -11,8 +11,6 @@ const SearchUsers = ({ users }) => {
         return user.name.toLowerCase().includes(value.toLowerCase());
     });
 
-    console.log(usersName);
-
     return (
         <div>
             <div className="form-outline mb-2">
