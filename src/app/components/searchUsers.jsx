@@ -1,15 +1,11 @@
 import React from "react";
 import { useState } from "react";
 
-const SearchUsers = ({ users }) => {
+const SearchUsers = () => {
     const [value, setValue] = useState("");
-    const valueChangeHandler = (event) => {
+    const onChangeValue = (event) => {
         setValue(event.target.value);
     };
-
-    const usersName = users.filter((user) => {
-        return user.name.toLowerCase().includes(value.toLowerCase());
-    });
 
     return (
         <div>
@@ -24,13 +20,9 @@ const SearchUsers = ({ users }) => {
                         className="form-control"
                         id="datatable-search-input"
                         placeholder="Search..."
-                        onChange={valueChangeHandler}
+                        onChange={onChangeValue}
                     />
-                    <button
-                        className="btn btn-outline-secondary"
-                        type="button"
-                        onClick={() => console.log(usersName)}
-                    >
+                    <button className="btn btn-outline-secondary" type="button">
                         <i className="bi bi-search"></i>
                     </button>
                 </div>
