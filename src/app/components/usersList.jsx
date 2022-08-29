@@ -10,21 +10,26 @@ import _ from "lodash";
 
 const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [professions, setProfessions] = useState();
-    const [selectedProf, setSelectedProf] = useState();
+    const [professions, setProfessions] = useState([]);
+    const [selectedProf, setSelectedProf] = useState(null);
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
-    const pageSize = 8;
-
     const [value, setValue] = useState("");
-    const searchString = (event) => {
-        setValue(event.target.value);
-    };
-
-    const [users, setUsers] = useState();
-
+    const [users, setUsers] = useState([]);
+    
+    const pageSize = 8;
+    
     useEffect(() => {
         api.users.fetchAll().then((data) => setUsers(data));
+        api.professions.fetchAll().then((data) => setProfessions(data));
     }, []);
+    
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [selectedProf]);
+
+    const handleChangeValue = (event) => {
+        setValue(event.target.value);
+    };
 
     const handleDelete = (userId) => {
         setUsers(users.filter((user) => user._id !== userId));
@@ -41,17 +46,9 @@ const UsersList = () => {
         );
     };
 
-    useEffect(() => {
-        api.professions.fetchAll().then((data) => setProfessions(data));
-    }, []);
-
-    useEffect(() => {
-        setCurrentPage(1);
-    }, [selectedProf]);
-
     const handleProfessionSelect = (item) => {
         setSelectedProf(item);
-        setValue();
+        setValue("");
     };
 
     const handlePageChange = (pageIndex) => {
@@ -93,7 +90,7 @@ const UsersList = () => {
         };
 
         const clearProfession = () => {
-            setSelectedProf();
+            setSelectedProf(null);
         };
 
         return (
@@ -122,7 +119,8 @@ const UsersList = () => {
                             className="form-control"
                             id="datatable-search-input"
                             placeholder="Search..."
-                            onChange={searchString}
+                            value={value}
+                            onChange={handleChangeValue}
                             onFocus={clearProfession}
                         />
                         <button
