@@ -3,11 +3,12 @@ import { useState } from "react";
 
 const SearchUsers = ({ users }) => {
     const [value, setValue] = useState("");
-    const valueChangeHandler = (event) => {
+    
+    const onChangeValue = (event) => { // handleChangeValue
         setValue(event.target.value);
     };
 
-    const usersName = users.filter((user) => {
+    const usersName = users.filter((user) => { // зачем это ? 
         return user.name.toLowerCase().includes(value.toLowerCase());
     });
 
@@ -29,7 +30,7 @@ const SearchUsers = ({ users }) => {
                     <button
                         className="btn btn-outline-secondary"
                         type="button"
-                        onClick={() => console.log(usersName)}
+                        onClick={() => console.log(usersName)} // Зачем это ? 
                     >
                         <i className="bi bi-search"></i>
                     </button>
