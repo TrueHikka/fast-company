@@ -7,6 +7,7 @@ import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
 import _ from "lodash";
+import SearchUsers from "./searchUsers";
 
 const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -113,23 +114,11 @@ const UsersList = () => {
 
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
-                    <div className="input-group">
-                        <input
-                            type="search"
-                            className="form-control"
-                            id="datatable-search-input"
-                            placeholder="Search..."
-                            value={value}
-                            onChange={handleChangeValue}
-                            onFocus={clearProfession}
-                        />
-                        <button
-                            className="btn btn-outline-secondary"
-                            type="button"
-                        >
-                            <i className="bi bi-search"></i>
-                        </button>
-                    </div>
+                    <SearchUsers
+                        value={value}
+                        onChangeValue={handleChangeValue}
+                        clearProfession={clearProfession}
+                    />
 
                     {count > 0 && (
                         <UserTable
