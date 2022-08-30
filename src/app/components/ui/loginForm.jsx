@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import TextField from "./textField";
-import { validator } from "../utils/validator";
+import { validator } from "../../utils/validator";
+import TextField from "../common/form/textField";
 
-const Login = () => {
+const LoginForm = () => {
     const [data, setData] = useState({ email: "", password: "" });
     const [errors, setErrors] = useState({});
 
@@ -49,7 +49,7 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
-        if (!isValid) return;
+        if (!isValid);
     };
 
     return (
@@ -87,4 +87,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default LoginForm;

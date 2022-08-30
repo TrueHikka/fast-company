@@ -2,7 +2,6 @@ export function validator(data, config) {
     const errors = {};
     function validate(validateMethod, data, config) {
         let statusValidate;
-        console.log(validateMethod);
         switch (validateMethod) {
             case "isRequired":
                 statusValidate = data.trim() === "";

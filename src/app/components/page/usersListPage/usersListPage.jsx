@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import Pagination from "./pagination";
-import { paginate } from "../utils/paginate";
+import Pagination from "../../common/pagination";
+import { paginate } from "../../../utils/paginate";
 import PropTypes from "prop-types";
-import api from "../api";
-import GroupList from "./groupList";
-import SearchStatus from "./searchStatus";
-import UserTable from "./usersTable";
+import api from "../../../api";
+import GroupList from "../../common/groupList";
+import SearchStatus from "../../ui/searchStatus";
+import UserTable from "../../ui/usersTable";
 import _ from "lodash";
-import SearchUsers from "./searchUsers";
+import SearchUsers from "../../ui/searchUsers";
 
-const UsersList = () => {
+const UsersListPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState([]);
     const [selectedProf, setSelectedProf] = useState(null);
@@ -30,6 +30,7 @@ const UsersList = () => {
 
     const handleChangeValue = (event) => {
         setValue(event.target.value);
+        setSelectedProf(null);
     };
 
     const handleDelete = (userId) => {
@@ -86,12 +87,7 @@ const UsersList = () => {
         const userCrop = paginate(sortedUsers, currentPage, pageSize);
 
         const clearFilter = () => {
-            setValue();
             setSelectedProf();
-        };
-
-        const clearProfession = () => {
-            setSelectedProf(null);
         };
 
         return (
@@ -117,7 +113,6 @@ const UsersList = () => {
                     <SearchUsers
                         value={value}
                         onChangeValue={handleChangeValue}
-                        clearProfession={clearProfession}
                     />
 
                     {count > 0 && (
@@ -142,11 +137,11 @@ const UsersList = () => {
             </div>
         );
     }
-    return "loading...";
+    return <h1>loading...</h1>;
 };
 
-UsersList.propTypes = {
+UsersListPage.propTypes = {
     users: PropTypes.array
 };
 
-export default UsersList;
+export default UsersListPage;
