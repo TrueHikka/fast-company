@@ -22,7 +22,7 @@ const Login = () => {
                 <div className="col-md-6 offset-md-3 p-4 shadow">
                     {formType === "register" ? (
                         <>
-						 <h3 className="mb-4">Register</h3>
+                            <h3 className="mb-4">Register</h3>
                             <RegisterForm />
                             <p>
                                 Already have account?{" "}
@@ -34,7 +34,7 @@ const Login = () => {
                         </>
                     ) : (
                         <>
-						 <h3 className="mb-4">Login</h3>
+                            <h3 className="mb-4">Login</h3>
                             <LoginForm />
                             <p>
                                 Don't have account?{" "}
