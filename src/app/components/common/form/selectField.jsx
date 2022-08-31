@@ -9,18 +9,20 @@ const SelectField = ({
     options,
     error
 }) => {
+    const handleChange = ({ target }) => {
+        onChange({ name: target.name, value: target.value });
+    };
+
     const getInputClasses = () => {
         return "form-select" + (error ? " is-invalid" : "");
     };
 
     const optionsArray =
         !Array.isArray(options) && typeof options === "object"
-            ? Object.keys(
-                  options.map((optionName) => ({
-                      name: options[optionName].name,
-                      value: options[optionName]._id
-                  }))
-              )
+            ? Object.keys(options).map((optionName) => ({
+                  name: options[optionName].name,
+                  value: options[optionName]._id
+              }))
             : options;
 
     return (
@@ -33,7 +35,7 @@ const SelectField = ({
                 id="validationCustom04"
                 name="profession"
                 value={value}
-                onChange={onChange}
+                onChange={handleChange}
             >
                 <option disabled value="">
                     {defaultOption}
