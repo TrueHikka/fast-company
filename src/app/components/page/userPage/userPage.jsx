@@ -10,16 +10,17 @@ const UserPage = () => {
 
     const [user, setUser] = useState();
     useEffect(() => {
-        api.users.getById(userId).then((data) => setUser(data));
+        api.users.getById(userId).then((data)=>setUser(data))
     }, []);
 
     const history = useHistory();
 
     const handleSave = () => {
-        history.replace("/users/:userId/:edit");
+        history.replace("/users");
     };
 
     if (user) {
+        console.log(user)
         return (
             <div>
                 <h1>{user.name}</h1>

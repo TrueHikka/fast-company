@@ -34,11 +34,11 @@ const UserPageEdit = () => {
     useEffect(() => {
         api.users.getById(userId).then((data) => setUser(data));
     }, []);
-    console.log(user);
+    // console.log(user);
     const history = useHistory();
 
     const handleSave = () => {
-        history.replace("/users/:userId");
+        history.replace("/users");
     };
 
     const getProfessionById = (id) => {
@@ -158,7 +158,17 @@ const UserPageEdit = () => {
             </div>
         );
     } else {
-        return <h1>Loading</h1>;
+        return (
+            <div className="container mt-5">
+                <div className="row">
+                    <div className="col-md-6 offset-md-3 p-4 shadow">
+                        <form>
+                            <h1>Loading</h1>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        );
     }
 };
 
