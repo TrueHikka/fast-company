@@ -53,7 +53,7 @@ const RegisterForm = () => {
                 value: data[professionName]._id
             }));
             setProfessions(professionsList);
-            console.log(professionsList);
+            // console.log(professionsList);
         });
         api.qualities.fetchAll().then((data) => {
             const qualitiesList = Object.keys(data).map((optionName) => ({
@@ -62,7 +62,7 @@ const RegisterForm = () => {
                 color: data[optionName].color
             }));
             setQualities(qualitiesList);
-            console.log(qualitiesList);
+            // console.log(qualitiesList);
         });
     }, []);
 

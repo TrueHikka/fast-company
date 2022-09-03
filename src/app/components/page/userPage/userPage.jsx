@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import api from "../../../api";
 import Qualities from "../../ui/qualities";
 import { useHistory, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const UserPage = () => {
     const params = useParams();
@@ -15,7 +16,7 @@ const UserPage = () => {
     const history = useHistory();
 
     const handleSave = () => {
-        history.replace("/users");
+        history.replace("/users/:userId/:edit");
     };
 
     if (user) {
@@ -28,12 +29,14 @@ const UserPage = () => {
                 </span>
                 <h6>{`completedMeetings: ${user.completedMeetings}`}</h6>
                 <h2>{`Rate: ${user.rate}`}</h2>
-                <button
-                    className="btn btn-dark text-align-center"
-                    onClick={handleSave}
-                >
-                    Все пользователи
-                </button>
+                <Link to={`/users/${user._id}/edit`}>
+                    <button
+                        className="btn btn-dark text-align-center"
+                        onClick={handleSave}
+                    >
+                        Изменить
+                    </button>
+                </Link>
             </div>
         );
     } else {

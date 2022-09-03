@@ -5,6 +5,7 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleChange = ({ target }) => {
+        console.log(target);
         onChange({ name: target.name, value: target.value });
     };
 
