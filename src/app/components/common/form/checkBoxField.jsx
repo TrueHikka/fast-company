@@ -6,7 +6,7 @@ const CheckBoxField = ({ name, value, onChange, children, error }) => {
         onChange({ name: name, value: !value });
     };
 
-	const getInputClasses = () => {
+    const getInputClasses = () => {
         return "form-check-input" + (error ? " is-invalid" : "");
     };
 
@@ -36,7 +36,7 @@ CheckBoxField.propTypes = {
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
     ]),
-	error: PropTypes.string
+    error: PropTypes.string
 };
 
 export default CheckBoxField;

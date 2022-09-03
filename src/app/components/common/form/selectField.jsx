@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 const SelectField = ({
     label,
     value,
+    name,
     onChange,
     defaultOption,
     options,
@@ -19,31 +20,32 @@ const SelectField = ({
 
     const optionsArray =
         !Array.isArray(options) && typeof options === "object"
-            ? Object.keys(options).map((optionName) => ({
-                  name: options[optionName].name,
-                  value: options[optionName]._id
-              }))
-            : options;
+            ? Object.values(options)
+            : //   ? Object.keys(options).map((optionName) => ({
+              // 	name: options[optionName].name,
+              // 	value: options[optionName]._id
+              // }))
+              options;
 
     return (
         <div className="mb-4">
-            <label htmlFor="validationCustom04" className="form-label">
+            <label htmlFor={name} className="form-label">
                 {label}
             </label>
             <select
                 className={getInputClasses()}
-                id="validationCustom04"
-                name="profession"
+                id={name}
+                name={name}
                 value={value}
                 onChange={handleChange}
             >
                 <option disabled value="">
                     {defaultOption}
                 </option>
-                {optionsArray &&
+                {optionsArray.length > 0 &&
                     optionsArray.map((option) => (
                         <option key={option.value} value={option.value}>
-                            {option.name}
+                            {option.label}
                         </option>
                     ))}
             </select>
@@ -56,6 +58,7 @@ SelectField.propTypes = {
     defaultOption: PropTypes.string,
     label: PropTypes.string,
     value: PropTypes.string,
+    name: PropTypes.string,
     onChange: PropTypes.func,
     error: PropTypes.string,
     options: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
