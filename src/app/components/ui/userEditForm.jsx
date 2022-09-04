@@ -10,7 +10,7 @@ import { useHistory, useParams } from "react-router-dom";
 const UserEditForm = () => {
     const params = useParams();
     const { userId } = params;
-    console.log(userId);
+	
     const history = useHistory();
 
     const [data, setData] = useState({
