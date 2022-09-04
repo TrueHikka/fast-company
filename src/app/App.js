@@ -3,9 +3,9 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import NavBar from "./components/ui/navBar";
 import Main from "./layouts/main";
 import Login from "./layouts/login";
-import UsersListPage from "./components/page/usersListPage/usersListPage";
 import UserPage from "./components/page/userPage/userPage";
-import UserPageEdit from "./components/page/userPageEdit/userPageEdit";
+import UsersListPage from "./components/page/usersListPage";
+import UserPageEdit from "./components/page/userPage/userPageEdit";
 
 function App() {
     return (

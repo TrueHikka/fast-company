@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import api from "../../../api";
 import Qualities from "../../ui/qualities";
 import { useHistory, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 const UserPage = () => {
     const params = useParams();
@@ -10,17 +9,17 @@ const UserPage = () => {
 
     const [user, setUser] = useState();
     useEffect(() => {
-        api.users.getById(userId).then((data)=>setUser(data))
+        api.users.getById(userId).then((data) => setUser(data));
     }, []);
 
     const history = useHistory();
 
     const handleSave = () => {
-        history.replace("/users");
+        history.replace(`/users/${userId}/edit`);
     };
 
     if (user) {
-        console.log(user)
+        console.log(user);
         return (
             <div>
                 <h1>{user.name}</h1>
@@ -30,18 +29,16 @@ const UserPage = () => {
                 </span>
                 <h6>{`completedMeetings: ${user.completedMeetings}`}</h6>
                 <h2>{`Rate: ${user.rate}`}</h2>
-                <Link to={`/users/${user._id}/edit`}>
-                    <button
-                        className="btn btn-dark text-align-center"
-                        onClick={handleSave}
-                    >
-                        Изменить
-                    </button>
-                </Link>
+                <button
+                    className="btn btn-dark text-align-center"
+                    onClick={() => handleSave()}
+                >
+                    Изменить
+                </button>
             </div>
         );
     } else {
-        return <h1>Loading</h1>;
+        return <h1>loading...</h1>;
     }
 };
 
