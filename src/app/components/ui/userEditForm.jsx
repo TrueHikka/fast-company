@@ -1,22 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
 import api from "../../api";
 import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
-import CheckBoxField from "../common/form/checkBoxField";
+import { useHistory, useParams } from "react-router-dom";
 
-const RegisterForm = () => {
+const UserEditForm = () => {
+    const params = useParams();
+    const { userId } = params;
+	
+    const history = useHistory();
+
     const [data, setData] = useState({
+        name: "",
         email: "",
-        password: "",
         profession: "",
         sex: "male",
-        qualities: [],
-        licence: false
+        qualities: []
     });
-    const [qualities, setQualities] = useState([]); // заменили {} на []
+
+    const [qualities, setQualities] = useState([]);
     const [professions, setProfessions] = useState([]);
     const [errors, setErrors] = useState({});
 
@@ -67,6 +72,11 @@ const RegisterForm = () => {
     };
 
     const validatorConfig = {
+        name: {
+            isRequired: {
+                message: "Обязательно укажите Ваше имя"
+            }
+        },
         email: {
             isRequired: {
                 message: "Электронная почта обязательна для заполнения"
@@ -75,28 +85,9 @@ const RegisterForm = () => {
                 message: "Email введен некорректно"
             }
         },
-        password: {
-            isRequired: { message: "Пароль обязателен для заполнения" },
-            isCapitalSymbol: {
-                message: "Пароль должен содержать хотя бы одну заглавную букву"
-            },
-            isContainDigit: {
-                message: "Пароль должен содержать хотя бы одну цифру"
-            },
-            min: {
-                message: "Пароль должен состоять минимум из 8 символов",
-                value: 8
-            }
-        },
         profession: {
             isRequired: {
-                message: "Обязательно выберите вашу профессию"
-            }
-        },
-        licence: {
-            isRequired: {
-                message:
-                    "Вы не можете использовать наш сервис без подтверждения лицензионного соглашения"
+                message: "Обязательно выберите Вашу профессию"
             }
         }
     };
@@ -118,15 +109,23 @@ const RegisterForm = () => {
         const isValid = validate();
         if (!isValid) return;
         const { profession, qualities } = data;
-        console.log({
+        api.users.update(userId, {
             ...data,
             profession: getProfessionById(profession),
             qualities: getQualities(qualities)
         });
+        history.replace(`/users/${userId}`);
     };
 
     return (
         <form onSubmit={handleSubmit}>
+            <TextField
+                label="Имя"
+                name="name"
+                value={data.name}
+                onChange={handleChange}
+                error={errors.name}
+            />
             <TextField
                 label="Электронная почта"
                 name="email"
@@ -134,21 +133,13 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 error={errors.email}
             />
-            <TextField
-                label="Пароль"
-                type="password"
-                name="password"
-                value={data.password}
-                onChange={handleChange}
-                error={errors.password}
-            />
             <SelectField
                 label="Выбери свою профессию"
                 defaultOption="Choose..."
                 name="profession"
+                value={data.profession}
                 options={professions}
                 onChange={handleChange}
-                value={data.profession}
                 error={errors.profession}
             />
             <RadioField
@@ -157,36 +148,27 @@ const RegisterForm = () => {
                     { name: "Female", value: "female" },
                     { name: "Other", value: "other" }
                 ]}
-                value={data.sex}
-                name="sex"
-                onChange={handleChange}
                 label="Выберите ваш пол"
+                name="sex"
+                value={data.sex}
+                onChange={handleChange}
             />
             <MultiSelectField
                 label="Выберите ваши качества"
+                name="qualities"
                 options={qualities}
                 defaultValue={data.qualities}
-                name="qualities"
                 onChange={handleChange}
             />
-            <CheckBoxField
-                value={data.licence}
-                onChange={handleChange}
-                name="licence"
-                error={errors.licence}
-            >
-                Подтвердить <a>лицензионное соглашение</a>
-            </CheckBoxField>
-
             <button
+                className="btn btn-primary w-100 mx-auto"
                 type="submit"
                 disabled={!isValid}
-                className="btn btn-primary w-100 mx-auto"
             >
-                Submit
+                Обновить
             </button>
         </form>
     );
 };
 
-export default RegisterForm;
+export default UserEditForm;

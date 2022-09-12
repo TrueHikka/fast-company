@@ -15,7 +15,7 @@ const UserPage = () => {
     const history = useHistory();
 
     const handleSave = () => {
-        history.replace("/users");
+        history.replace(`/users/${userId}/edit`);
     };
 
     if (user) {
@@ -30,14 +30,14 @@ const UserPage = () => {
                 <h2>{`Rate: ${user.rate}`}</h2>
                 <button
                     className="btn btn-dark text-align-center"
-                    onClick={handleSave}
+                    onClick={() => handleSave()}
                 >
-                    Все пользователи
+                    Изменить
                 </button>
             </div>
         );
     } else {
-        return <h1>Loading</h1>;
+        return <h1>loading...</h1>;
     }
 };
 

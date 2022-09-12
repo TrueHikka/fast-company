@@ -21,11 +21,7 @@ const SelectField = ({
     const optionsArray =
         !Array.isArray(options) && typeof options === "object"
             ? Object.values(options)
-            : //   ? Object.keys(options).map((optionName) => ({
-              // 	name: options[optionName].name,
-              // 	value: options[optionName]._id
-              // }))
-              options;
+            : options;
 
     return (
         <div className="mb-4">
