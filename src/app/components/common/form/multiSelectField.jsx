@@ -6,11 +6,7 @@ const MultiSelectField = ({ options, onChange, name, label, defaultValue }) => {
     const optionsArray =
         !Array.isArray(options) && typeof options === "object"
             ? Object.values(options)
-            : //   ? Object.keys(options).map((optionName) => ({
-              // 	name: options[optionName].name,
-              // 	value: options[optionName]._id
-              // }))
-              options;
+            : options;
 
     const handleChange = (value) => {
         onChange({ name: name, value });

@@ -45,15 +45,12 @@ const RegisterForm = () => {
     };
 
     useEffect(() => {
-        // api.professions.fetchAll().then((data) => setProfessions(data));
-        // api.qualities.fetchAll().then((data) => setQualities(data));
         api.professions.fetchAll().then((data) => {
             const professionsList = Object.keys(data).map((professionName) => ({
                 label: data[professionName].name,
                 value: data[professionName]._id
             }));
             setProfessions(professionsList);
-            // console.log(professionsList);
         });
         api.qualities.fetchAll().then((data) => {
             const qualitiesList = Object.keys(data).map((optionName) => ({
@@ -62,7 +59,6 @@ const RegisterForm = () => {
                 color: data[optionName].color
             }));
             setQualities(qualitiesList);
-            // console.log(qualitiesList);
         });
     }, []);
 
@@ -117,11 +113,6 @@ const RegisterForm = () => {
 
     const isValid = Object.keys(errors).length === 0;
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     const isValid = validate();
-    //     if (!isValid);
-    // };
     const handleSubmit = (e) => {
         e.preventDefault();
         const isValid = validate();
