@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "../../common/pagination";
 import { paginate } from "../../../utils/paginate";
-// import PropTypes from "prop-types";
 import api from "../../../api";
 import GroupList from "../../common/groupList";
 import SearchStatus from "../../ui/searchStatus";
@@ -139,9 +138,5 @@ const UsersListPage = () => {
     }
     return <h1>loading...</h1>;
 };
-
-// UsersListPage.propTypes = {
-//     users: PropTypes.array
-// };
 
 export default UsersListPage;

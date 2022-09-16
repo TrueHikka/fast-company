@@ -10,7 +10,9 @@ import { useHistory, useParams } from "react-router-dom";
 const UserEditForm = () => {
     const params = useParams();
     const { userId } = params;
-	
+
+    const [isLoading, setIsLoading] = useState(false);
+
     const history = useHistory();
 
     const [data, setData] = useState({
@@ -36,8 +38,11 @@ const UserEditForm = () => {
     const getQualities = (elements) => {
         const qualitiesArray = [];
         for (const elem of elements) {
+			console.log(elem)
             for (const quality in qualities) {
+				console.log(quality)
                 if (elem.value === qualities[quality].value) {
+					
                     qualitiesArray.push({
                         _id: qualities[quality].value,
                         name: qualities[quality].label,
@@ -49,7 +54,33 @@ const UserEditForm = () => {
         return qualitiesArray;
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const isValid = validate();
+        if (!isValid) return;
+        const { profession, qualities } = data;
+        api.users.update(userId, {
+            ...data,
+            profession: getProfessionById(profession),
+            qualities: getQualities(qualities)
+        });
+        history.replace(`/users/${userId}`);
+    };
+
+    const transformData = (data) => {
+        return data.map((qual) => ({ label: qual.name, value: qual._id }));
+    };
+
     useEffect(() => {
+        setIsLoading(true);
+        api.users.getById(userId).then(({ profession, qualities, ...data }) =>
+            setData((prevState) => ({
+                ...prevState,
+                ...data,
+                qualities: transformData(qualities),
+                profession: profession._id
+            }))
+        );
         api.professions.fetchAll().then((data) => {
             const professionsList = Object.keys(data).map((professionName) => ({
                 label: data[professionName].name,
@@ -67,14 +98,14 @@ const UserEditForm = () => {
         });
     }, []);
 
-    const handleChange = (target) => {
-        setData((prevState) => ({ ...prevState, [target.name]: target.value }));
-    };
+    useEffect(() => {
+        if (data._id) setIsLoading(false);
+    }, [data]);
 
     const validatorConfig = {
         name: {
             isRequired: {
-                message: "Обязательно укажите Ваше имя"
+                message: "Введите Ваше имя"
             }
         },
         email: {
@@ -96,6 +127,10 @@ const UserEditForm = () => {
         validate();
     }, [data]);
 
+    const handleChange = (target) => {
+        setData((prevState) => ({ ...prevState, [target.name]: target.value }));
+    };
+
     const validate = () => {
         const errors = validator(data, validatorConfig);
         setErrors(errors);
@@ -104,70 +139,63 @@ const UserEditForm = () => {
 
     const isValid = Object.keys(errors).length === 0;
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const isValid = validate();
-        if (!isValid) return;
-        const { profession, qualities } = data;
-        api.users.update(userId, {
-            ...data,
-            profession: getProfessionById(profession),
-            qualities: getQualities(qualities)
-        });
-        history.replace(`/users/${userId}`);
-    };
-
     return (
-        <form onSubmit={handleSubmit}>
-            <TextField
-                label="Имя"
-                name="name"
-                value={data.name}
-                onChange={handleChange}
-                error={errors.name}
-            />
-            <TextField
-                label="Электронная почта"
-                name="email"
-                value={data.email}
-                onChange={handleChange}
-                error={errors.email}
-            />
-            <SelectField
-                label="Выбери свою профессию"
-                defaultOption="Choose..."
-                name="profession"
-                value={data.profession}
-                options={professions}
-                onChange={handleChange}
-                error={errors.profession}
-            />
-            <RadioField
-                options={[
-                    { name: "Male", value: "male" },
-                    { name: "Female", value: "female" },
-                    { name: "Other", value: "other" }
-                ]}
-                label="Выберите ваш пол"
-                name="sex"
-                value={data.sex}
-                onChange={handleChange}
-            />
-            <MultiSelectField
-                label="Выберите ваши качества"
-                name="qualities"
-                options={qualities}
-                defaultValue={data.qualities}
-                onChange={handleChange}
-            />
-            <button
-                className="btn btn-primary w-100 mx-auto"
-                type="submit"
-                disabled={!isValid}
-            >
-                Обновить
-            </button>
-        </form>
+        <>
+            {!isLoading && Object.keys(professions).length > 0 ? (
+                <form onSubmit={handleSubmit}>
+                    <TextField
+                        label="Имя"
+                        name="name"
+                        value={data.name}
+                        onChange={handleChange}
+                        error={errors.name}
+                    />
+                    <TextField
+                        label="Электронная почта"
+                        name="email"
+                        value={data.email}
+                        onChange={handleChange}
+                        error={errors.email}
+                    />
+                    <SelectField
+                        label="Выбери свою профессию"
+                        defaultOption="Choose..."
+                        name="profession"
+                        value={data.profession}
+                        options={professions}
+                        onChange={handleChange}
+                        error={errors.profession}
+                    />
+                    <RadioField
+                        options={[
+                            { name: "Male", value: "male" },
+                            { name: "Female", value: "female" },
+                            { name: "Other", value: "other" }
+                        ]}
+                        label="Выберите ваш пол"
+                        name="sex"
+                        value={data.sex}
+                        onChange={handleChange}
+                    />
+                    <MultiSelectField
+                        label="Выберите ваши качества"
+                        name="qualities"
+                        options={qualities}
+                        defaultValue={data.qualities}
+                        onChange={handleChange}
+                    />
+                    <button
+                        className="btn btn-primary w-100 mx-auto"
+                        type="submit"
+                        disabled={!isValid}
+                    >
+                        Обновить
+                    </button>
+                </form>
+            ) : (
+                "Loading..."
+            )}
+        </>
     );
 };
 
