@@ -124,7 +124,7 @@ const RegisterForm = () => {
             qualities: getQualities(qualities)
         });
     };
-
+	console.log(data)
     return (
         <form onSubmit={handleSubmit}>
             <TextField
