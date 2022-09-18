@@ -32,7 +32,7 @@ const UserCard = ({ user }) => {
 						"
                 >
                     <img
-                        src={`https://avatars.dicebear.com/api/avataaars/${(
+                        src={`https://avatars.dicebear.com/api/personas/${(
                             Math.random() + 1
                         )
                             .toString(36)

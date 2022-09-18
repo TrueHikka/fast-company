@@ -10,7 +10,6 @@ const SelectField = ({
     options,
     error
 }) => {
-	
     const handleChange = ({ target }) => {
         onChange({ name: target.name, value: target.value });
     };
@@ -23,7 +22,7 @@ const SelectField = ({
         !Array.isArray(options) && typeof options === "object"
             ? Object.values(options)
             : options;
-			
+
     return (
         <div className="mb-4">
             <label htmlFor={name} className="form-label">
@@ -42,7 +41,7 @@ const SelectField = ({
                 {optionsArray.length > 0 &&
                     optionsArray.map((option) => (
                         <option key={option.value} value={option.value}>
-							{option.label}
+                            {option.label}
                         </option>
                     ))}
             </select>

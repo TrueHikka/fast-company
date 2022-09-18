@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../../../api";
 import SelectField from "../form/selectField";
-import TextAreaField from "../form/textAreaField"
+import TextAreaField from "../form/textAreaField";
 import { validator } from "../../../utils/validator";
 import PropTypes from "prop-types";
 
@@ -77,14 +77,16 @@ const AddCommentForm = ({ onSubmit }) => {
                     error={errors.userId}
                 />
                 <TextAreaField
-					label="Сообщение"
+                    label="Сообщение"
                     name="content"
                     value={data.content}
                     onChange={handleChange}
                     error={errors.content}
                 />
                 <div className="d-flex justify-content-end">
-                    <button className="btn btn-primary" type="submit">Опубликовать</button>
+                    <button className="btn btn-primary" type="submit">
+                        Опубликовать
+                    </button>
                 </div>
             </form>
         </div>

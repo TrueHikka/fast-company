@@ -16,7 +16,7 @@ const TextAreaField = ({ label, name, value, onChange, error }) => {
             <div className="input-group has-validation">
                 <textarea
                     id={name}
-					name={name}
+                    name={name}
                     value={value}
                     onChange={handleChange}
                     className={getInputClasses()}
