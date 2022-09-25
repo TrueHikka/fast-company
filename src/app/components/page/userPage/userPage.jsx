@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import api from "../../../api";
-import Qualities from "../../ui/qualities";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import UserCard from "../../ui/userCard";
+import QualitiesCard from "../../ui/qualitiesCard";
+import MeetingsCard from "../../ui/meetingsCard";
+import Comments from "../../ui/comments";
 
 const UserPage = () => {
     const params = useParams();
@@ -12,32 +15,23 @@ const UserPage = () => {
         api.users.getById(userId).then((data) => setUser(data));
     }, []);
 
-    const history = useHistory();
-
-    const handleSave = () => {
-        history.replace(`/users/${userId}/edit`);
-    };
-
     if (user) {
         return (
-            <div>
-                <h1>{user.name}</h1>
-                <h2>{`Профессия: ${user.profession.name}`}</h2>
-                <span>
-                    <Qualities qualities={user.qualities} />
-                </span>
-                <h6>{`completedMeetings: ${user.completedMeetings}`}</h6>
-                <h2>{`Rate: ${user.rate}`}</h2>
-                <button
-                    className="btn btn-dark text-align-center"
-                    onClick={() => handleSave()}
-                >
-                    Изменить
-                </button>
+            <div className="container">
+                <div className="row gutters-sm">
+                    <div className="col-md-4 mb-3">
+                        <UserCard user={user} />
+                        <QualitiesCard data={user.qualities} />
+                        <MeetingsCard value={user.completedMeetings} />
+                    </div>
+                    <div className="col-md-8">
+                        <Comments />
+                    </div>
+                </div>
             </div>
         );
     } else {
-        return <h1>loading...</h1>;
+        return <h1>Loading...</h1>;
     }
 };
 
