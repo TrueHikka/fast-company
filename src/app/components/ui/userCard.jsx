@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
+import srcAvatars from "../../utils/srcAvatars";
 
 const UserCard = ({ user }) => {
     const history = useHistory();
@@ -32,11 +33,7 @@ const UserCard = ({ user }) => {
 						"
                 >
                     <img
-                        src={`https://avatars.dicebear.com/api/personas/${(
-                            Math.random() + 1
-                        )
-                            .toString(36)
-                            .substring(7)}.svg`}
+                        src={srcAvatars()}
                         className="rounded-circle"
                         width="150"
                     />

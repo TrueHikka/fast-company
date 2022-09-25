@@ -38,9 +38,7 @@ const UserEditForm = () => {
     const getQualities = (elements) => {
         const qualitiesArray = [];
         for (const elem of elements) {
-            console.log(elem);
             for (const quality in qualities) {
-                console.log(quality);
                 if (elem.value === qualities[quality].value) {
                     qualitiesArray.push({
                         _id: qualities[quality].value,

@@ -16,7 +16,7 @@ const RegisterForm = () => {
         qualities: [],
         licence: false
     });
-    const [qualities, setQualities] = useState([]); // заменили {} на []
+    const [qualities, setQualities] = useState([]);
     const [professions, setProfessions] = useState([]);
     const [errors, setErrors] = useState({});
 
@@ -124,7 +124,7 @@ const RegisterForm = () => {
             qualities: getQualities(qualities)
         });
     };
-    console.log(data);
+    
     return (
         <form onSubmit={handleSubmit}>
             <TextField
