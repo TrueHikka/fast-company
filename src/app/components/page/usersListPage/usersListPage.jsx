@@ -19,9 +19,7 @@ const UsersListPage = () => {
     const pageSize = 8;
 
     const { users } = useUser();
-    console.log(users);
     useEffect(() => {
-        // api.users.fetchAll().then((data) => setUsers(data));
         api.professions.fetchAll().then((data) => setProfessions(data));
     }, []);
 
@@ -35,7 +33,6 @@ const UsersListPage = () => {
     };
 
     const handleDelete = (userId) => {
-        // setUsers(users.filter((user) => user._id !== userId));
         console.log(userId);
     };
 
@@ -46,7 +43,6 @@ const UsersListPage = () => {
             }
             return user;
         });
-        // setUsers(newArray);
         console.log(newArray);
     };
 

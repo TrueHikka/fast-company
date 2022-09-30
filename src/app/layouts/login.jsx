@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import LoginForm from "../components/ui/loginForm";
 import RegisterForm from "../components/ui/registerForm";
