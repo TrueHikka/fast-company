@@ -29,7 +29,7 @@ export const QualitiesProvider = ({ children }) => {
     }, []);
 
     const getQuality = (id) => {
-        return qualities.find((q)=>q._id===id);
+        return qualities.find((q) => q._id === id);
     };
 
     function errorCatcher(error) {
