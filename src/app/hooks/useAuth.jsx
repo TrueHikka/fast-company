@@ -6,6 +6,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { setTokens } from "../services/localStorage.service";
+import configFile from "../config.json"
 
 const httpAuth = axios.create()
 
@@ -19,8 +20,32 @@ const AuthProvider = ({ children }) => {
 const [currentUser, setUser] = useState({})
 const [error, setError] = useState(null);
 
+async function logIn({ email, password}) {
+	const url = `${configFile.authEndPoint}signInWithPassword?key=${process.env.REACT_APP_FIREBASE_KEY}`;
+
+	try {
+		const { data } = await httpAuth.post(url, {
+			email,
+			password,
+			returnSecureToken: true
+		});
+		setTokens(data);
+	} catch (error) {
+		errorCatcher(error, setError);
+		const { code, message } = error.response.data.error;
+		if (code === 400) {
+			if (message === "EMAIL_NOT_FOUND" || message === "INVALID_PASSWORD") {
+				const errorObject = {
+					email: "Неверный логин или пароль"
+				};
+				throw errorObject;
+			}
+		}
+	}
+}
+
 async function signUp({ email, password, ...rest }) {
-    const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`;
+    const url = `${configFile.authEndPoint}signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`;
 
 	try {
 		const { data } = await httpAuth.post(url, {
@@ -67,7 +92,7 @@ useEffect(() => {
 }, [error]);
 
     return (
-        <AuthContext.Provider value={{ signUp, currentUser }}>
+        <AuthContext.Provider value={{ signUp, logIn, currentUser }}>
             {children}
         </AuthContext.Provider>
     );
