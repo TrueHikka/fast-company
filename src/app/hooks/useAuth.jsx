@@ -6,9 +6,13 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { setTokens } from "../services/localStorage.service";
-import configFile from "../config.json"
 
-const httpAuth = axios.create()
+const httpAuth = axios.create({
+	baseURL: "https://identitytoolkit.googleapis.com/v1/",
+	params: {
+		key: process.env.REACT_APP_FIREBASE_KEY
+	}
+})
 
 const AuthContext = React.createContext();
 
@@ -21,10 +25,8 @@ const [currentUser, setUser] = useState({})
 const [error, setError] = useState(null);
 
 async function logIn({ email, password}) {
-	const url = `${configFile.authEndPoint}signInWithPassword?key=${process.env.REACT_APP_FIREBASE_KEY}`;
-
 	try {
-		const { data } = await httpAuth.post(url, {
+		const { data } = await httpAuth.post(`accounts:signInWithPassword`, {
 			email,
 			password,
 			returnSecureToken: true
@@ -34,21 +36,19 @@ async function logIn({ email, password}) {
 		errorCatcher(error, setError);
 		const { code, message } = error.response.data.error;
 		if (code === 400) {
-			if (message === "EMAIL_NOT_FOUND" || message === "INVALID_PASSWORD") {
-				const errorObject = {
-					email: "Неверный логин или пароль"
-				};
-				throw errorObject;
+			switch (message) {
+				case "INVALID_PASSWORD" || "EMAIL_NOT_FOUND":
+					throw new Error("Неверный логин или пароль")
+				default:
+					throw new Error("Слишком много попыток входа. Попробуйте позднее.")
 			}
 		}
 	}
 }
 
 async function signUp({ email, password, ...rest }) {
-    const url = `${configFile.authEndPoint}signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`;
-
 	try {
-		const { data } = await httpAuth.post(url, {
+		const { data } = await httpAuth.post(`accounts:signUp`, {
 			email,
 			password,
 			returnSecureToken: true

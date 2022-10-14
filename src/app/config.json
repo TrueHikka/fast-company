@@ -1,5 +1,4 @@
 {
     "apiEndPoint": "https://fast-company-firebase-82d8c-default-rtdb.europe-west1.firebasedatabase.app/",
-	"authEndPoint": "https://identitytoolkit.googleapis.com/v1/accounts:",
     "isFireBase": true
 }
