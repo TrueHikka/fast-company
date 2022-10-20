@@ -7,13 +7,14 @@ import MultiSelectField from "../common/form/multiSelectField";
 import CheckBoxField from "../common/form/checkBoxField";
 import { useQualities } from "../../hooks/useQualities";
 import { useProfessions } from "../../hooks/useProfession";
-import {useAuth} from "../../hooks/useAuth"
+import { useAuth } from "../../hooks/useAuth";
 import { useHistory } from "react-router-dom";
 
 const RegisterForm = () => {
-	const history = useHistory()
+    const history = useHistory();
     const [data, setData] = useState({
         email: "",
+        name: "",
         password: "",
         profession: "",
         sex: "male",
@@ -21,7 +22,7 @@ const RegisterForm = () => {
         licence: false
     });
 
-const {signUp} = useAuth()
+    const { signUp } = useAuth();
 
     const { qualities } = useQualities();
     const qualitiesList = qualities.map((q) => ({
@@ -37,29 +38,29 @@ const {signUp} = useAuth()
 
     const [errors, setErrors] = useState({});
 
-    const getProfessionById = (id) => {
-        for (const prof of professions) {
-            if (prof.value === id) {
-                return { _id: prof.value, name: prof.label };
-            }
-        }
-    };
+    // const getProfessionById = (id) => {
+    //     for (const prof of professions) {
+    //         if (prof.value === id) {
+    //             return { _id: prof.value, name: prof.label };
+    //         }
+    //     }
+    // };
 
-    const getQualities = (elements) => {
-        const qualitiesArray = [];
-        for (const elem of elements) {
-            for (const quality in qualities) {
-                if (elem.value === qualities[quality].value) {
-                    qualitiesArray.push({
-                        _id: qualities[quality].value,
-                        name: qualities[quality].label,
-                        color: qualities[quality].color
-                    });
-                }
-            }
-        }
-        return qualitiesArray;
-    };
+    // const getQualities = (elements) => {
+    //     const qualitiesArray = [];
+    //     for (const elem of elements) {
+    //         for (const quality in qualities) {
+    //             if (elem.value === qualities[quality].value) {
+    //                 qualitiesArray.push({
+    //                     _id: qualities[quality].value,
+    //                     name: qualities[quality].label,
+    //                     color: qualities[quality].color
+    //                 });
+    //             }
+    //         }
+    //     }
+    //     return qualitiesArray;
+    // };
 
     const handleChange = (target) => {
         setData((prevState) => ({ ...prevState, [target.name]: target.value }));
@@ -72,6 +73,15 @@ const {signUp} = useAuth()
             },
             isEmail: {
                 message: "Email введен некорректно"
+            }
+        },
+        name: {
+            isRequired: {
+                message: "Имя обязательно для заполнения"
+            },
+            min: {
+                message: "Имя должно состоять минимум из 3 символов",
+                value: 3
             }
         },
         password: {
@@ -120,13 +130,12 @@ const {signUp} = useAuth()
             ...data,
             qualities: data.qualities.map((q) => q.value)
         };
-		try {
-			await signUp(newData)
-			history.push("/")
-		} catch (error) {
-			setErrors(error)
-		}
-        
+        try {
+            await signUp(newData);
+            history.push("/");
+        } catch (error) {
+            setErrors(error);
+        }
     };
 
     return (
@@ -137,6 +146,13 @@ const {signUp} = useAuth()
                 value={data.email}
                 onChange={handleChange}
                 error={errors.email}
+            />
+            <TextField
+                label="Имя"
+                name="name"
+                value={data.name}
+                onChange={handleChange}
+                error={errors.name}
             />
             <TextField
                 label="Пароль"

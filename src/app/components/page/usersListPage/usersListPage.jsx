@@ -1,27 +1,24 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "../../common/pagination";
 import { paginate } from "../../../utils/paginate";
-import api from "../../../api";
 import GroupList from "../../common/groupList";
 import SearchStatus from "../../ui/searchStatus";
 import UserTable from "../../ui/usersTable";
 import _ from "lodash";
 import SearchUsers from "../../ui/searchUsers";
-import { useUser } from "../../../hooks/useUsers";
+import { useProfessions } from "../../../hooks/useProfession";
+import { useAuth } from "../../../hooks/useAuth";
+import { useUser } from "../../../hooks/useUser";
 
 const UsersListPage = () => {
+    const { users } = useUser();
+    const { currentUser } = useAuth();
+    const { isLoading: professionsLoading, professions } = useProfessions();
     const [currentPage, setCurrentPage] = useState(1);
-    const [professions, setProfessions] = useState([]);
     const [selectedProf, setSelectedProf] = useState(null);
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const [value, setValue] = useState("");
-
     const pageSize = 8;
-
-    const { users } = useUser();
-    useEffect(() => {
-        api.professions.fetchAll().then((data) => setProfessions(data));
-    }, []);
 
     useEffect(() => {
         setCurrentPage(1);
@@ -60,20 +57,23 @@ const UsersListPage = () => {
     };
 
     if (users) {
-        const filteredUsers = users.filter((user) => {
-            if (selectedProf || value) {
-                if (selectedProf) {
-                    return user.profession._id === selectedProf._id;
+        function filterUsers(data) {
+            const filteredUsers = data.filter((user) => {
+                if (selectedProf || value) {
+                    if (selectedProf) {
+                        return data.profession._id === selectedProf._id;
+                    }
+                    if (value) {
+                        return data.name
+                            .toLowerCase()
+                            .includes(value.toLowerCase());
+                    }
                 }
-                if (value) {
-                    return user.name
-                        .toLowerCase()
-                        .includes(value.toLowerCase());
-                }
-            }
-            return true;
-        });
-
+                return true;
+            });
+            return filteredUsers.filter((u) => u._id !== currentUser._id);
+        }
+        const filteredUsers = filterUsers(users);
         const count = filteredUsers.length;
 
         const sortedUsers = _.orderBy(
@@ -90,7 +90,7 @@ const UsersListPage = () => {
 
         return (
             <div className="d-flex">
-                {professions && (
+                {professions && !professionsLoading && (
                     <div className="d-flex flex-column flex-shrink-0 p-3">
                         <GroupList
                             selectedItem={selectedProf}

@@ -11,14 +11,14 @@ const LoginForm = () => {
         password: "",
         stayOn: false
     });
-	const history = useHistory()
-	const {logIn} = useAuth()
+    const history = useHistory();
+    const { logIn } = useAuth();
     const [errors, setErrors] = useState({});
-	const [enterError, setEnterError] = useState(null);
+    const [enterError, setEnterError] = useState(null);
 
     const handleChange = (target) => {
         setData((prevState) => ({ ...prevState, [target.name]: target.value }));
-		setEnterError(null)
+        setEnterError(null);
     };
 
     const validatorConfig = {
@@ -48,12 +48,16 @@ const LoginForm = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid);
-		try {
-			await logIn(data)
-			history.push("/")
-		} catch (error) {
-			setEnterError(error.message)
-		}
+        try {
+            await logIn(data);
+            history.push(
+                history.location.state.from.pathname
+                    ? history.location.state.from.pathname
+                    : "/"
+            );
+        } catch (error) {
+            setEnterError(error.message);
+        }
     };
 
     return (
@@ -80,7 +84,7 @@ const LoginForm = () => {
             >
                 Оставаться в системе
             </CheckBoxField>
-			{enterError&&<p className="text-danger" >{enterError}</p>}
+            {enterError && <p className="text-danger">{enterError}</p>}
             <button
                 type="submit"
                 disabled={!isValid || enterError}
