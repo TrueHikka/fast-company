@@ -36,7 +36,7 @@ const UserEditForm = () => {
         qualities: []
     });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
@@ -44,8 +44,12 @@ const UserEditForm = () => {
             ...data,
 			qualities: data.qualities.map(q => q.value)
 		}
-        userUpdate(newData)
-        history.replace(`/users/${userId}`);
+		try {
+			userUpdate(newData)
+			history.replace(`/users/${userId}`);
+		} catch (error) {
+			setErrors(error)
+		}
     };
 
     useEffect(() => {
