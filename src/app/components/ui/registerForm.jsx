@@ -11,7 +11,6 @@ import { useAuth } from "../../hooks/useAuth";
 import { useHistory } from "react-router-dom";
 import { mapArrayData } from "../../utils/funcMapArrData";
 
-
 const RegisterForm = () => {
     const history = useHistory();
     const [data, setData] = useState({
@@ -27,10 +26,10 @@ const RegisterForm = () => {
     const { signUp } = useAuth();
 
     const { qualities } = useQualities();
-	const qualitiesList = mapArrayData(qualities)
+    const qualitiesList = mapArrayData(qualities);
 
     const { professions } = useProfessions();
-	const professionList = mapArrayData(professions)
+    const professionList = mapArrayData(professions);
 
     const [errors, setErrors] = useState({});
 

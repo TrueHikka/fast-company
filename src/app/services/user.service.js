@@ -21,10 +21,13 @@ const userService = {
         );
         return data;
     },
-	update: async(payload) => {
-        const { data } = await httpService.put(userEndpoint + payload._id, payload);
+    update: async (payload) => {
+        const { data } = await httpService.put(
+            userEndpoint + payload._id,
+            payload
+        );
         return data;
-    },
+    }
 };
 
 export default userService;

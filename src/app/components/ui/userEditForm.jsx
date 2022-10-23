@@ -14,17 +14,17 @@ const UserEditForm = () => {
     const params = useParams();
     const { userId } = params;
 
-	const {userUpdate} = useAuth()
+    const { userUpdate } = useAuth();
 
     const [isLoading, setIsLoading] = useState(false);
 
     const history = useHistory();
 
-	const {professions} = useProfessions()
-	const professionsList = mapArrayData(professions)
+    const { professions } = useProfessions();
+    const professionsList = mapArrayData(professions);
 
-	const {qualities} = useQualities()
-	const qualitiesList = mapArrayData(qualities)
+    const { qualities } = useQualities();
+    const qualitiesList = mapArrayData(qualities);
 
     const [errors, setErrors] = useState({});
 
@@ -42,14 +42,14 @@ const UserEditForm = () => {
         if (!isValid) return;
         const newData = {
             ...data,
-			qualities: data.qualities.map(q => q.value)
-		}
-		try {
-			userUpdate(newData)
-			history.replace(`/users/${userId}`);
-		} catch (error) {
-			setErrors(error)
-		}
+            qualities: data.qualities.map((q) => q.value)
+        };
+        try {
+            await userUpdate(newData);
+            history.replace(`/users/${userId}`);
+        } catch (error) {
+            setErrors(error);
+        }
     };
 
     useEffect(() => {
