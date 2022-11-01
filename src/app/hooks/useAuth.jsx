@@ -138,8 +138,51 @@ const AuthProvider = ({ children }) => {
         }
     }, [error]);
 
+    async function updateUser(data) {
+        try {
+            const { content } = await userService.update(data);
+            setUser(content);
+        } catch (error) {
+            errorCatcher(error, setError);
+        }
+    }
+
+    async function userUpdate({ name, email, profession, sex, qualities }) {
+        const idToken = localStorageService.getAccessToken();
+        try {
+            const { data } = await httpAuth.post("accounts:update", {
+                idToken,
+                displayName: name,
+                email,
+                returnSecureToken: true
+            });
+            setTokens(data);
+            await updateUser({
+                ...currentUser,
+                email,
+                name,
+                profession,
+                qualities,
+                sex
+            });
+        } catch (error) {
+            errorCatcher(error, setError);
+            const { code, message } = error.response.data.error;
+            if (code === 400) {
+                if (message === "EMAIL_EXISTS") {
+                    const errorObject = {
+                        email: "Пользователь с таким email уже существует"
+                    };
+                    throw errorObject;
+                }
+            }
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{ signUp, logIn, currentUser, logOut }}>
+        <AuthContext.Provider
+            value={{ signUp, logIn, currentUser, logOut, userUpdate }}
+        >
             {!isLoading ? children : "Loading..."}
         </AuthContext.Provider>
     );

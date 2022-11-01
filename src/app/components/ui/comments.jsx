@@ -15,7 +15,7 @@ const Comments = () => {
     };
 
     const handleRemoveComment = (id) => {
-		removeComment(id)
+        removeComment(id);
         // api.comments.remove(id).then((id) => {
         //     setComments(comments.filter((x) => x._id !== id));
         // });

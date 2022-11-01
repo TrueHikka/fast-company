@@ -9,6 +9,7 @@ import { useQualities } from "../../hooks/useQualities";
 import { useProfessions } from "../../hooks/useProfession";
 import { useAuth } from "../../hooks/useAuth";
 import { useHistory } from "react-router-dom";
+import { mapArrayData } from "../../utils/funcMapArrData";
 
 const RegisterForm = () => {
     const history = useHistory();
@@ -25,42 +26,12 @@ const RegisterForm = () => {
     const { signUp } = useAuth();
 
     const { qualities } = useQualities();
-    const qualitiesList = qualities.map((q) => ({
-        label: q.name,
-        value: q._id
-    }));
+    const qualitiesList = mapArrayData(qualities);
 
     const { professions } = useProfessions();
-    const professionList = professions.map((p) => ({
-        label: p.name,
-        value: p._id
-    }));
+    const professionList = mapArrayData(professions);
 
     const [errors, setErrors] = useState({});
-
-    // const getProfessionById = (id) => {
-    //     for (const prof of professions) {
-    //         if (prof.value === id) {
-    //             return { _id: prof.value, name: prof.label };
-    //         }
-    //     }
-    // };
-
-    // const getQualities = (elements) => {
-    //     const qualitiesArray = [];
-    //     for (const elem of elements) {
-    //         for (const quality in qualities) {
-    //             if (elem.value === qualities[quality].value) {
-    //                 qualitiesArray.push({
-    //                     _id: qualities[quality].value,
-    //                     name: qualities[quality].label,
-    //                     color: qualities[quality].color
-    //                 });
-    //             }
-    //         }
-    //     }
-    //     return qualitiesArray;
-    // };
 
     const handleChange = (target) => {
         setData((prevState) => ({ ...prevState, [target.name]: target.value }));
