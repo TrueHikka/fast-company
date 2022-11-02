@@ -26,7 +26,7 @@ export const ProfessionsProvider = ({ children }) => {
     }, [error]);
 
     function errorCatcher(error) {
-        const { message } = error.responce.data;
+        const { message } = error.response.data;
         setError(message);
     }
 
@@ -40,7 +40,7 @@ export const ProfessionsProvider = ({ children }) => {
             setProfessions(content);
             setLoading(false);
         } catch (error) {
-            errorCatcher();
+            errorCatcher(error);
         }
     }
 

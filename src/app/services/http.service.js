@@ -16,7 +16,8 @@ http.interceptors.request.use(
                 (containSlash ? config.url.slice(0, -1) : config.url) + ".json";
             const expiresDate = localStorageService.getTokenExpiresDate();
             const refreshToken = localStorageService.getRefreshToken();
-
+			console.log("refreshToken: ", refreshToken)
+			console.log("expiresDate: ", expiresDate)
             if (refreshToken && expiresDate > Date.now()) {
                 const { data } = await httpAuth.post("token", {
                     grant_type: "refresh_token",
@@ -25,11 +26,12 @@ http.interceptors.request.use(
                 localStorageService.setTokens({
                     refreshToken: data.refresh_token,
                     idToken: data.id_token,
-                    expiresIn: data.expires_in,
+                    expiresIn: data.expires_id,
                     localId: data.user_id
                 });
             }
             const accessToken = localStorageService.getAccessToken();
+			console.log("accessToken: ", accessToken)
             if (accessToken) {
                 config.params = { ...config.params, auth: accessToken };
             }

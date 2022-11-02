@@ -4,9 +4,7 @@ import axios from "axios";
 import userService from "../services/user.service";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import localStorageService, {
-    setTokens
-} from "../services/localStorage.service";
+import localStorageService, {setTokens} from "../services/localStorage.service";
 import { useHistory } from "react-router-dom";
 import srcAvatars from "../utils/srcAvatars";
 

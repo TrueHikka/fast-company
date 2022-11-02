@@ -1,4 +1,4 @@
-import React, { Children } from "react";
+import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useAuth } from "../../hooks/useAuth";
