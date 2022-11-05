@@ -9,10 +9,9 @@ import {
 
 const QualitiesList = ({ qualities }) => {
     const isLoading = useSelector(getQualitiesLoadingStatus());
-
-    if (isLoading) return "Loading...";
-
-    const qualitiesList = useSelector(getQualitiesBiIds(qualities));
+	const qualitiesList = useSelector(getQualitiesBiIds(qualities));
+    
+	if (isLoading) return "Loading...";
 
     return (
         <>

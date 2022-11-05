@@ -17,7 +17,7 @@ const EditUserPage = () => {
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState();
-    const { currentUser, userUpdate } = useAuth();
+    const { currentUser, updateUser } = useAuth();
     const qualities = useSelector(getQualities());
     const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
     const qualitiesList = qualities.map((q) => ({
@@ -35,7 +35,7 @@ const EditUserPage = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        await userUpdate({
+        await updateUser({
             ...data,
             qualities: data.qualities.map((q) => q.value)
         });
@@ -106,9 +106,7 @@ const EditUserPage = () => {
     };
     const isValid = Object.keys(errors).length === 0;
     return (
-        <div className="container mt-5">
-            <div className="row">
-                <div className="col-md-6 offset-md-3 shadow p-4">
+        <>
                     {!isLoading && Object.keys(professions).length > 0 ? (
                         <form onSubmit={handleSubmit}>
                             <TextField
@@ -163,9 +161,7 @@ const EditUserPage = () => {
                     ) : (
                         "Loading..."
                     )}
-                </div>
-            </div>
-        </div>
+                </>
     );
 };
 

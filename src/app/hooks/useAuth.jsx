@@ -38,6 +38,7 @@ const AuthProvider = ({ children }) => {
                 }
             );
             setTokens(data);
+			console.log(data)
             await getUserData();
         } catch (error) {
             errorCatcher(error, setError);
@@ -140,46 +141,15 @@ const AuthProvider = ({ children }) => {
         try {
             const { content } = await userService.update(data);
             setUser(content);
+			console.log(content)
         } catch (error) {
             errorCatcher(error, setError);
-        }
-    }
-
-    async function userUpdate({ name, email, profession, sex, qualities }) {
-        const idToken = localStorageService.getAccessToken();
-        try {
-            const { data } = await httpAuth.post("accounts:update", {
-                idToken,
-                displayName: name,
-                email,
-                returnSecureToken: true
-            });
-            setTokens(data);
-            await updateUser({
-                ...currentUser,
-                email,
-                name,
-                profession,
-                qualities,
-                sex
-            });
-        } catch (error) {
-            errorCatcher(error, setError);
-            const { code, message } = error.response.data.error;
-            if (code === 400) {
-                if (message === "EMAIL_EXISTS") {
-                    const errorObject = {
-                        email: "Пользователь с таким email уже существует"
-                    };
-                    throw errorObject;
-                }
-            }
         }
     }
 
     return (
         <AuthContext.Provider
-            value={{ signUp, logIn, currentUser, logOut, userUpdate }}
+            value={{ signUp, logIn, currentUser, logOut, updateUser }}
         >
             {!isLoading ? children : "Loading..."}
         </AuthContext.Provider>
