@@ -16,10 +16,10 @@ export function setTokens({
     localStorage.setItem(EXPIRES_KEY, expiresDate);
 }
 export function getAccessToken() {
-	return localStorage.getItem(TOKEN_KEY)
+    return localStorage.getItem(TOKEN_KEY);
 }
 export function getRefreshToken() {
-	return localStorage.getItem(REFRESH_KEY)
+    return localStorage.getItem(REFRESH_KEY);
 }
 export function removeAuthData() {
     localStorage.removeItem(USERID_KEY);

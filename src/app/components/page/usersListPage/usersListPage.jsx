@@ -6,14 +6,21 @@ import SearchStatus from "../../ui/searchStatus";
 import UserTable from "../../ui/usersTable";
 import _ from "lodash";
 import SearchUsers from "../../ui/searchUsers";
-import { useProfessions } from "../../../hooks/useProfession";
 import { useAuth } from "../../../hooks/useAuth";
 import { useUser } from "../../../hooks/useUser";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    getProfessions,
+    getProfessionsLoadingStatus,
+    loadProfessionsList
+} from "../../../store/professions";
 
 const UsersListPage = () => {
     const { users } = useUser();
     const { currentUser } = useAuth();
-    const { isLoading: professionsLoading, professions } = useProfessions();
+    const dispatch = useDispatch();
+    const professions = useSelector(getProfessions());
+    const professionsLoading = useSelector(getProfessionsLoadingStatus());
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedProf, setSelectedProf] = useState(null);
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
@@ -23,6 +30,10 @@ const UsersListPage = () => {
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
+
+    useEffect(() => {
+        dispatch(loadProfessionsList());
+    }, []);
 
     const handleChangeValue = (event) => {
         setValue(event.target.value);
