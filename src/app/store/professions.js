@@ -3,7 +3,7 @@ import { isOutdated } from "../utils/isOutdated";
 import professionService from "../services/professions.service";
 
 const professionsSlice = createSlice({
-    name: "qualities",
+    name: "professions",
     initialState: {
         entities: null,
         isLoading: true,
@@ -35,7 +35,7 @@ export const loadProfessionsList = () => async (dispatch, getState) => {
     if (isOutdated(lastFetch)) {
 		dispatch(professionsRequested())
         try {
-            const { content } = await professionService.fetchAll();
+            const { content } = await professionService.get()
             dispatch(professionsReceived(content));
         } catch (error) {
         dispatch(professionsRequestFailed(error.message))
@@ -44,14 +44,10 @@ export const loadProfessionsList = () => async (dispatch, getState) => {
 };
 
 export const getProfessions = () => (state) => state.professions.entities;
-export const getProfessionsByIds = (professionsId) => (state) => {
+export const getProfessionsByIds = (id) => (state) => {
     if (state.professions.entities) {
-        const professionsArr = state.professions.entities.find(
-            (profession) => profession._id === professionsId
-        );
-        return professionsArr;
+        return state.professions.entities.find((profession) => profession._id === id);
     }
-    return [];
 };
 
 export const getProfessionsLoadingStatus = () => (state) =>

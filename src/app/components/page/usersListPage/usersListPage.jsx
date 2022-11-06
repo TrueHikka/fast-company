@@ -20,6 +20,7 @@ const UsersListPage = () => {
     const { currentUser } = useAuth();
     const dispatch = useDispatch();
     const professions = useSelector(getProfessions());
+	console.log(professions)
     const professionsLoading = useSelector(getProfessionsLoadingStatus());
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedProf, setSelectedProf] = useState(null);

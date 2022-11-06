@@ -9,9 +9,9 @@ import {
 
 const Profession = ({ id }) => {
     const dispatch = useDispatch();
+	const isLoading = useSelector(getProfessionsLoadingStatus());
     const professionsList = useSelector(getProfessionsByIds(id));
-    const isLoading = useSelector(getProfessionsLoadingStatus());
-
+    
     useEffect(() => {
         dispatch(loadProfessionsList());
     }, []);
