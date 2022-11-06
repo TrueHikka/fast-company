@@ -3,21 +3,21 @@ import PropTypes from "prop-types";
 import Quality from "./quality";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    getQualitiesBiIds,
+    getQualitiesByIds,
     getQualitiesLoadingStatus,
-	loadQualitiesList
+    loadQualitiesList
 } from "../../../store/qualities";
 
 const QualitiesList = ({ qualities }) => {
-	const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const isLoading = useSelector(getQualitiesLoadingStatus());
-	const qualitiesList = useSelector(getQualitiesBiIds(qualities));
-    
-useEffect(() => {
-	dispatch(loadQualitiesList())
-}, [])
+    const qualitiesList = useSelector(getQualitiesByIds(qualities));
 
-	if (isLoading) return "Loading...";
+    useEffect(() => {
+        dispatch(loadQualitiesList());
+    }, []);
+
+    if (isLoading) return "Loading...";
 
     return (
         <>

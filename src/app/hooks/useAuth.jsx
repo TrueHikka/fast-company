@@ -4,7 +4,9 @@ import axios from "axios";
 import userService from "../services/user.service";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import localStorageService, {setTokens} from "../services/localStorage.service";
+import localStorageService, {
+    setTokens
+} from "../services/localStorage.service";
 import { useHistory } from "react-router-dom";
 import srcAvatars from "../utils/srcAvatars";
 
@@ -38,7 +40,6 @@ const AuthProvider = ({ children }) => {
                 }
             );
             setTokens(data);
-			console.log(data)
             await getUserData();
         } catch (error) {
             errorCatcher(error, setError);
@@ -141,7 +142,7 @@ const AuthProvider = ({ children }) => {
         try {
             const { content } = await userService.update(data);
             setUser(content);
-			console.log(content)
+            console.log(content);
         } catch (error) {
             errorCatcher(error, setError);
         }

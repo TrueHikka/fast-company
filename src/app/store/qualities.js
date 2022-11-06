@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import qualityService from "../services/qualities.service";
+import { isOutdated } from "../utils/isOutdated";
 
 const qualitiesSlice = createSlice({
     name: "qualities",
@@ -7,15 +8,15 @@ const qualitiesSlice = createSlice({
         entities: null,
         isLoading: true,
         error: null,
-		lastFetch: null
+        lastFetch: null
     },
     reducers: {
         qualitiesRequested: (state) => {
             state.isLoading = true;
         },
-        qualitiesReceved: (state, action) => {
+        qualitiesReceived: (state, action) => {
             state.entities = action.payload;
-			state.lastFetch = Date.now()
+            state.lastFetch = Date.now();
             state.isLoading = false;
         },
         qualitiesRequestFailed: (state, action) => {
@@ -26,34 +27,27 @@ const qualitiesSlice = createSlice({
 });
 
 const { reducer: qualitiesReducer, actions } = qualitiesSlice;
-const { qualitiesRequested, qualitiesReceved, qualitiesRequestFailed } = actions;
-
-function isOutdated(date) { 
-	if(Date.now() - date > 10 * 60 * 1000) {
-		return true
-	}
-	return false
-}
+const { qualitiesRequested, qualitiesReceived, qualitiesRequestFailed } =
+    actions;
 
 export const loadQualitiesList = () => async (dispatch, getState) => {
-	const {lastFetch} = getState().qualities
-	if(isOutdated(lastFetch)) {
-		console.log(lastFetch)
-		dispatch(qualitiesRequested());
-		try {
-			const { content } = await qualityService.fetchAll();
-			dispatch(qualitiesReceved(content));
-		} catch (error) {
-			dispatch(qualitiesRequestFailed(error.message));
-		}
-	}
+    const { lastFetch } = getState().qualities;
+    if (isOutdated(lastFetch)) {
+        dispatch(qualitiesRequested());
+        try {
+            const { content } = await qualityService.fetchAll();
+            dispatch(qualitiesReceived(content));
+        } catch (error) {
+            dispatch(qualitiesRequestFailed(error.message));
+        }
+    }
 };
 
 export const getQualities = () => (state) => state.qualities.entities;
 export const getQualitiesLoadingStatus = () => (state) =>
     state.qualities.isLoading;
 
-export const getQualitiesBiIds = (qualitiesIds) => (state) => {
+export const getQualitiesByIds = (qualitiesIds) => (state) => {
     if (state.qualities.entities) {
         const qualitiesArr = [];
         for (const qualId of qualitiesIds) {
