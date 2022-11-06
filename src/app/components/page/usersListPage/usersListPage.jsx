@@ -7,20 +7,19 @@ import UserTable from "../../ui/usersTable";
 import _ from "lodash";
 import SearchUsers from "../../ui/searchUsers";
 import { useAuth } from "../../../hooks/useAuth";
-import { useUser } from "../../../hooks/useUser";
 import { useDispatch, useSelector } from "react-redux";
 import {
     getProfessions,
     getProfessionsLoadingStatus,
     loadProfessionsList
 } from "../../../store/professions";
+import { getUsersList } from "../../../store/users";
 
 const UsersListPage = () => {
-    const { users } = useUser();
+	const users = useSelector(getUsersList())
     const { currentUser } = useAuth();
     const dispatch = useDispatch();
     const professions = useSelector(getProfessions());
-	console.log(professions)
     const professionsLoading = useSelector(getProfessionsLoadingStatus());
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedProf, setSelectedProf] = useState(null);
