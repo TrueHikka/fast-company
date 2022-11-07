@@ -1,37 +1,37 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React from "react";
+import { Redirect, useParams } from "react-router-dom";
 import UserPage from "../components/page/userPage/userPage";
 import UsersListPage from "../components/page/usersListPage";
 import UserPageEdit from "../components/page/userPage/userPageEdit";
 import UserProvider from "../hooks/useUser";
-import { useDispatch, useSelector } from "react-redux";
-import { getDataStatus, loadUsersList } from "../store/users";
+import { useSelector } from "react-redux";
+import { getCurrentUserId } from "../store/users";
+import UsersLoader from "../components/ui/hoc/usersLoader";
 
 const Users = () => {
     const params = useParams();
     const { userId, edit } = params;
-    const dataStatus = useSelector(getDataStatus());
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        if (!dataStatus) dispatch(loadUsersList());
-    }, []);
-
-    if (!dataStatus) return "Loading...";
+    const currentUserId = useSelector(getCurrentUserId());
 
     return (
         <>
-            <UserProvider>
-                {userId ? (
-                    edit ? (
-                        <UserPageEdit />
+            <UsersLoader>
+                <UserProvider>
+                    {userId ? (
+                        edit ? (
+                            userId === currentUserId ? (
+                                <UserPageEdit />
+                            ) : (
+                                <Redirect to={`/users/${currentUserId}/edit`} />
+                            )
+                        ) : (
+                            <UserPage userId={userId} />
+                        )
                     ) : (
-                        <UserPage userId={userId} />
-                    )
-                ) : (
-                    <UsersListPage />
-                )}
-            </UserProvider>
+                        <UsersListPage />
+                    )}
+                </UserProvider>
+            </UsersLoader>
         </>
     );
 };
