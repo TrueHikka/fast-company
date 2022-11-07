@@ -17,23 +17,23 @@ function App() {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(loadQualitiesList());
-		dispatch(loadProfessionsList())
-		dispatch(loadUsersList())
+        dispatch(loadProfessionsList());
+        dispatch(loadUsersList());
     }, []);
     return (
         <>
             <AuthProvider>
                 <NavBar />
-                    <Switch>
-                        <ProtectedRoute
-                            path="/users/:userId?/:edit?"
-                            component={Users}
-                        />
-                        <Route path="/login/:type?" component={Login} />
-                        <Route path="/logout" component={LogOut} />
-                        <Route path="/" exact component={Main} />
-                        <Redirect to="/" />
-                    </Switch>
+                <Switch>
+                    <ProtectedRoute
+                        path="/users/:userId?/:edit?"
+                        component={Users}
+                    />
+                    <Route path="/login/:type?" component={Login} />
+                    <Route path="/logout" component={LogOut} />
+                    <Route path="/" exact component={Main} />
+                    <Redirect to="/" />
+                </Switch>
             </AuthProvider>
             <ToastContainer />
         </>

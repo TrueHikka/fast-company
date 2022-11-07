@@ -11,7 +11,7 @@ import { getProfessions } from "../../store/professions";
 import { signUp } from "../../store/users";
 
 const RegisterForm = () => {
-	const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const [data, setData] = useState({
         email: "",
         name: "",
@@ -104,7 +104,7 @@ const RegisterForm = () => {
             ...data,
             qualities: data.qualities.map((q) => q.value)
         };
-		dispatch(signUp(newData))
+        dispatch(signUp(newData));
     };
 
     return (

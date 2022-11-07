@@ -14,15 +14,15 @@ const professionsSlice = createSlice({
         professionsRequested: (state) => {
             state.isLoading = true;
         },
-		professionsReceived: (state, action) => {
-			state.entities = action.payload;
-			state.lastFetch = Date.now();
-			state.isLoading = false;
-		},
-		professionsRequestFailed: (state, action) => {
-			state.error = action.payload;
-			state.isLoading = false;
-		}
+        professionsReceived: (state, action) => {
+            state.entities = action.payload;
+            state.lastFetch = Date.now();
+            state.isLoading = false;
+        },
+        professionsRequestFailed: (state, action) => {
+            state.error = action.payload;
+            state.isLoading = false;
+        }
     }
 });
 
@@ -33,12 +33,12 @@ const { professionsRequested, professionsReceived, professionsRequestFailed } =
 export const loadProfessionsList = () => async (dispatch, getState) => {
     const { lastFetch } = getState().professions;
     if (isOutdated(lastFetch)) {
-		dispatch(professionsRequested())
+        dispatch(professionsRequested());
         try {
-            const { content } = await professionService.get()
+            const { content } = await professionService.get();
             dispatch(professionsReceived(content));
         } catch (error) {
-        dispatch(professionsRequestFailed(error.message))
+            dispatch(professionsRequestFailed(error.message));
         }
     }
 };
@@ -46,7 +46,9 @@ export const loadProfessionsList = () => async (dispatch, getState) => {
 export const getProfessions = () => (state) => state.professions.entities;
 export const getProfessionsByIds = (id) => (state) => {
     if (state.professions.entities) {
-        return state.professions.entities.find((profession) => profession._id === id);
+        return state.professions.entities.find(
+            (profession) => profession._id === id
+        );
     }
 };
 

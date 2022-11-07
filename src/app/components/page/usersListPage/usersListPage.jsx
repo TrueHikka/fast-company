@@ -6,18 +6,18 @@ import SearchStatus from "../../ui/searchStatus";
 import UserTable from "../../ui/usersTable";
 import _ from "lodash";
 import SearchUsers from "../../ui/searchUsers";
-import { useAuth } from "../../../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import {
     getProfessions,
     getProfessionsLoadingStatus,
     loadProfessionsList
 } from "../../../store/professions";
-import { getUsersList } from "../../../store/users";
+import { getCurrentUserId, getUsersList } from "../../../store/users";
 
 const UsersListPage = () => {
-	const users = useSelector(getUsersList())
-    const { currentUser } = useAuth();
+    const users = useSelector(getUsersList());
+    const currentUserId = useSelector(getCurrentUserId());
+
     const dispatch = useDispatch();
     const professions = useSelector(getProfessions());
     const professionsLoading = useSelector(getProfessionsLoadingStatus());
@@ -82,7 +82,7 @@ const UsersListPage = () => {
                 }
                 return true;
             });
-            return filteredUsers.filter((u) => u._id !== currentUser._id);
+            return filteredUsers.filter((u) => u._id !== currentUserId);
         }
         const filteredUsers = filterUsers(users);
         const count = filteredUsers.length;

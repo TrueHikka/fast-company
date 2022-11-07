@@ -7,7 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
 import { createStore } from "./app/store/createStore";
 import { Provider } from "react-redux";
-import history from "./app/utils/history"
+import history from "./app/utils/history";
 
 const store = createStore();
 

@@ -13,7 +13,7 @@ const LoginForm = () => {
         stayOn: false
     });
     const history = useHistory();
-   const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const [errors, setErrors] = useState({});
     const [enterError, setEnterError] = useState(null);
 
@@ -49,11 +49,11 @@ const LoginForm = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid);
-		const redirect = history.location.state
-		? history.location.state.from.pathname
-		: "/"
+        const redirect = history.location.state
+            ? history.location.state.from.pathname
+            : "/";
 
-		dispatch(logIn({payload: data, redirect}))
+        dispatch(logIn({ payload: data, redirect }));
     };
 
     return (

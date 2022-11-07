@@ -12,7 +12,7 @@ const UserPage = () => {
     const params = useParams();
     const { userId } = params;
 
-	const user = useSelector(getUsersByIds(userId))
+    const user = useSelector(getUsersByIds(userId));
 
     if (user) {
         return (
