@@ -15,7 +15,7 @@ export const useComments = () => {
 
 export const CommentsProvider = ({ children }) => {
     const { userId } = useParams();
-	const currentUserId = useSelector(getCurrentUserId())
+    const currentUserId = useSelector(getCurrentUserId());
     const [isLoading, setLoading] = useState(true);
     const [comments, setComments] = useState([]);
     const [error, setError] = useState(null);

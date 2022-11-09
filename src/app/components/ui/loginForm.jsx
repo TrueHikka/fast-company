@@ -12,7 +12,7 @@ const LoginForm = () => {
         password: "",
         stayOn: false
     });
-	const loginError = useSelector(getAuthError())
+    const loginError = useSelector(getAuthError());
     const history = useHistory();
     const dispatch = useDispatch();
     const [errors, setErrors] = useState({});

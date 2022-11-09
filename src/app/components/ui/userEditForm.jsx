@@ -16,7 +16,7 @@ import { getCurrentUserData, updateUserData } from "../../store/users";
 const EditUserPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState();
-	const currentUser = useSelector(getCurrentUserData())
+    const currentUser = useSelector(getCurrentUserData());
     const qualities = useSelector(getQualities());
     const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
     const qualitiesList = qualities.map((q) => ({
@@ -37,10 +37,12 @@ const EditUserPage = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        dispatch(updateUserData({
-            ...data,
-            qualities: data.qualities.map((q) => q.value)
-        }))
+        dispatch(
+            updateUserData({
+                ...data,
+                qualities: data.qualities.map((q) => q.value)
+            })
+        );
     };
     function getQualitiesListByIds(qualitiesIds) {
         const qualitiesArray = [];

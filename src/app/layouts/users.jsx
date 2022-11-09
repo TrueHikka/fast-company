@@ -11,23 +11,23 @@ const Users = () => {
     const params = useParams();
     const { userId, edit } = params;
     const currentUserId = useSelector(getCurrentUserId());
-	
+
     return (
         <>
             <UsersLoader>
-                    {userId ? (
-                        edit ? (
-                            userId === currentUserId ? (
-                                <UserPageEdit />
-                            ) : (
-                                <Redirect to={`/users/${currentUserId}/edit`} />
-                            )
+                {userId ? (
+                    edit ? (
+                        userId === currentUserId ? (
+                            <UserPageEdit />
                         ) : (
-                            <UserPage userId={userId} />
+                            <Redirect to={`/users/${currentUserId}/edit`} />
                         )
                     ) : (
-                        <UsersListPage />
-                    )}
+                        <UserPage userId={userId} />
+                    )
+                ) : (
+                    <UsersListPage />
+                )}
             </UsersLoader>
         </>
     );

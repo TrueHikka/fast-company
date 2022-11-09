@@ -4,14 +4,14 @@ import { Link } from "react-router-dom";
 import { getCurrentUserData } from "../../store/users";
 
 const NavProfile = () => {
-	const currentUser = useSelector(getCurrentUserData())
+    const currentUser = useSelector(getCurrentUserData());
     const [isOpen, setOpen] = useState(false);
 
     const toggleMenu = () => {
         setOpen((prev) => !prev);
     };
 
-	if(!currentUser) return "Loading..."
+    if (!currentUser) return "Loading...";
 
     return (
         <div className="dropdown" onClick={toggleMenu}>
