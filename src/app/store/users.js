@@ -60,7 +60,7 @@ const usersSlice = createSlice({
 			state.auth = null
 			state.dataLoaded = false 
 		},
-		userUpdateData: (state, action) => {
+		userUpdateDataSuccessed: (state, action) => {
 			const userIndex = state.entities.findIndex((u) => u._id === action.payload._id)
 			state.entities[userIndex] = action.payload
 		},
@@ -79,7 +79,7 @@ const {
     authRequestFailed,
     userCreated,
 	userLoggedOut,
-	userUpdateData
+	userUpdateDataSuccessed
 } = actions;
 
 const authRequested = createAction("users/authRequested");
@@ -152,11 +152,11 @@ function createUser(payload) {
     };
 }
 
-export const updateUserData = (data) => async (dispatch) => {
+export const updateUserData = (payload) => async (dispatch) => {
 	dispatch(userUpdateDataRequested())
 	try {
-		const {content} = await userService.update(data)
-		dispatch(userUpdateData(content))
+		const {content} = await userService.update(payload)
+		dispatch(userUpdateDataSuccessed(content))
 		history.push(`/users/${content._id}`)
 	} catch (error) {
 		dispatch(userUpdateDataFailed(error.message))
