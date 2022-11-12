@@ -4,11 +4,11 @@ import CommentsList from "../common/comments/commentsList";
 import AddCommentForm from "../common/comments/addCommentForm";
 import { useDispatch, useSelector } from "react-redux";
 import {
-	createComment,
+    createComment,
     getComments,
     getCommentsLoadingStatus,
     loadCommentsList,
-	removeComment
+    removeComment
 } from "../../store/comments";
 import { useParams } from "react-router-dom";
 import { getCurrentUserId } from "../../store/users";
@@ -21,21 +21,23 @@ const Comments = () => {
         dispatch(loadCommentsList(userId));
     }, []);
     const isLoading = useSelector(getCommentsLoadingStatus());
-	const currentUserId = useSelector(getCurrentUserId())
+    const currentUserId = useSelector(getCurrentUserId());
     const comments = useSelector(getComments());
 
     const handleSubmit = (data) => {
-        dispatch(createComment({
-			...data,
-			_id: nanoid(),
-			pageId: userId,
-			created_at: Date.now(),
-			userId: currentUserId
-		}))
+        dispatch(
+            createComment({
+                ...data,
+                _id: nanoid(),
+                pageId: userId,
+                created_at: Date.now(),
+                userId: currentUserId
+            })
+        );
     };
 
     const handleRemoveComment = (id) => {
-        dispatch(removeComment(id))
+        dispatch(removeComment(id));
     };
 
     const sortedComments = orderBy(comments, ["created_at"], ["desc"]);
